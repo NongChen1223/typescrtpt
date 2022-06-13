@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>防抖</title>
+</head>
+
+<body>
+    <button id="debounce">按钮</button>
+    <script>
+        //1.获取按钮绑定事件
+        window.onload = function () {
+            var addbtn = document.getElementById("debounce")
+            console.log('按钮', addbtn)
+            addbtn.addEventListener("click", debounce(sayBebounce))
+        }
+        //2.防抖函数 接收传参
+        function debounce(fun) {
+            //4.创建一个标记来存放定时器返回的值
+            let timeout = null
+            return function () {
+                //5.每次用户触发的时候 就把之前的定时器给消除
+                clearTimeout(timeout)
+                /* 
+                *6.创建一个新的setTimeout,这样就能保证用户触发的时候interval 间隔内 如果用户还触发了 则不会执行指定的函数
+                */
+               timeout = setTimeout(()=>{
+                    //因为不确定这个函数有多少个变量 这时候就使用到了arguments 
+                    fun.call(this,arguments)
+               },1000)
+            }
+
+        }
+        //3.需要防抖的函数
+        function sayBebounce() {
+            //防抖工作在这执行
+            console.log('防抖成功')
+        }
+        /* 
+            总结:在频繁的触发一个函数的情况下 只有任务间隔达到的时候才会执行函数。如果触发了函数后用户再次触发了函数。
+            我们则会清除之前的定时器，重新生成一个。
+        */
+    </script>
+</body>
+
+</html>
