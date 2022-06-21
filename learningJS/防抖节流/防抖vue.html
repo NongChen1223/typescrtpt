@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vueApp</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <p>有效点击</p>
+            <p>{{valid}}</p>
+        </div>
+        <div>
+            <p>无效点击</p>
+            <p>{{inValid}}</p>
+        </div>
+        <button @click="addValid">点击我</button>
+
+        <!-- <button @click="addFun">点击我</button> -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                valid: 0,
+                inValid: 0,
+                timer:null
+            },
+            methods: {
+                debounceFun(fn,delayTime){
+                    let timerId;
+                    console.log('调用防抖',fn)
+                    return function(){
+                        let th;
+                         let args = arguments
+                         console.log('timerId',timerId)
+                         timerId && clearTimeout(timerId)
+                         timerId = setTimeout(() => {
+                            fn.apply(th, args)
+                         }, delayTime);
+                    }
+                },
+                addValid(){
+                    // this.inValid++
+                    // if(this.timer) clearTimeout(this.timer)
+                    // this.timer = setTimeout(() => {
+                    //     this.valid++
+                    // }, 1500);
+                    const a =  this.debounceFun(()=>this.valid++,500)
+                    a()
+                  
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

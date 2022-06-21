@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+<script>
+    /* 
+        例子一：
+        this 永远指向最后调用它的那个对象 此时log的一定是windowsName
+        因为注意a()调用的地方 是window 这就相当于window.a 前面没有调用对象
+    */
+    var name = "windowsName"
+    function a() {
+        var name = "cherry"
+        console.log(this.name)
+        console.log('inner:' + this) //Window
+    }
+    console.log('outer:' + this) //Window 
+    a()
+    /* 
+        例子二：
+        a2 打印cherry 也是因为 它最后的调用对象是a
+        如果把a2中name的属性注释掉 会打印 // undefined
+        因为就如描述所说 fn的调用对象 是a2 所以就算a2中没有name这个属性 也不会继续向上找一个对象
+        this.name 而是直接输出undefined
+    */
+    var name2 = "windowName2"
+    var a2 = {
+        name:"Cherry",
+        // name:"Cherry",  // undefined
+        fn:function(){
+            console.log(this.name) // Cherry
+        }
+    }
+    window.a2.fn() //最后是在window上调用的 
+    /* 
+        例子三:
+        由于最后是f3直接等于a3.fn 所以此时fn的调用已经变成了f3 而f3是全局的 所以f3打印的是
+        windowName3 fn()最后仍然是杯window给调用 所以this指向window
+    */
+    var name3 = "windowName3"
+    var a3 = {
+        name:null,
+        fn:function(){
+            console.log(this.name)
+        }
+    }
+    var f3 = a3.fn
+    f3()//打印windowName3
+</script>
+
+</html>

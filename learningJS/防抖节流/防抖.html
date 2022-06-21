@@ -23,6 +23,7 @@
             let timeout = null
             return function () {
                 //5.每次用户触发的时候 就把之前的定时器给消除
+                console.log('打印定时器',timeout)
                 clearTimeout(timeout)
                 /* 
                 *6.创建一个新的setTimeout,这样就能保证用户触发的时候interval 间隔内 如果用户还触发了 则不会执行指定的函数
