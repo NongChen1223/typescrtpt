@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+    <p></p>
+    <input onkeyup="change(event)">
+</body>
+  <script>
+    /* 这就是一个简单的单向数据绑定 */
+    const data = { value:'hello' }
+    document.querySelector('p').innerText = data.value
+
+    const change = e => {
+        console.log('-----onkeyup事件-----',e.target.value)
+        data.value = e.target.value
+        document.querySelector('p').innerText = data.value
+    }
+  </script>
+</html>
