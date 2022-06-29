@@ -28,17 +28,34 @@ const target = {
     }
 }
 function clone(target){
-    console.log('---浅拷贝函数---',target)
     if(typeof target === 'object'){
-        let cloneTarget = {};
+        let cloneTarget = Array.isArray(target) ? [] : {};
         for(const key in target){
             cloneTarget[key] = clone(target[key])
+            console.log('cloneTarget', cloneTarget)
         }
-        console.log('---对象返回---',cloneTarget)
         return cloneTarget
     }else{
-        console.log('---非对象---',target)
         return target;
     }
 }
-clone(target)
+//升级版 
+function mapClone(target,map = new Map()){
+    if(typeof target === 'object'){
+        let cloneTarget = Array.isArray(target) ? [] : {}
+        if(map.get(target)){ //map.get 读取key对应值 找不到返回undefined
+            return map.get(target)
+        }
+        map.set(target,cloneTarget) //set 存储键值
+        for(const key in target){
+            cloneTarget[key] = clone(target[key], map)
+        }
+        return cloneTarget
+    }else{
+        return target
+    }
+
+}
+// const targetCopy =   clone(target)
+target.target = target
+console.log('target',target)

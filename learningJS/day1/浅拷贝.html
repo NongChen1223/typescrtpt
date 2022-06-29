@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+<script>
+
+    function clone(target) {
+        if (typeof target === 'object') {
+            let cloneTarget = Array.isArray(target) ? [] : {};
+            for (const key in target) {
+                cloneTarget[key] = clone(target[key])
+                console.log('cloneTarget', cloneTarget)
+            }
+            return cloneTarget
+        } else {
+            return target;
+        }
+    }
+    //升级版 
+    function mapClone(target, map = new Map()) {
+        if (typeof target === 'object') {
+            let cloneTarget = Array.isArray(target) ? [] : {}
+            if (map.get(target)) { //map.get 读取key对应值 找不到返回undefined
+                return map.get(target)
+            }
+            map.set(target, cloneTarget) //set 存储键值
+            for (const key in target) {
+                cloneTarget[key] = clone(target[key], map)
+            }
+            return cloneTarget
+        } else {
+            return target
+        }
+
+    }
+    const target = {
+        field1: 1,
+        field2: undefined,
+        field3: 'ConardLi',
+        field4: {
+            child: 'child',
+            child2: {
+                child2: 'child2'
+            }
+        }
+    }
+    target.target = target
+    // console.log('target',  clone(target))
+</script>
+
+</html>
